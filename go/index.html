@@ -437,7 +437,7 @@ Zaczynamy od &ldquo;dlaczego?&rdquo;</p>
 </span></span><span style="display:flex;"><span>)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Data</span> <span style="color:#66d9ef">struct</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">value</span> <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">value</span> <span style="color:#66d9ef">string</span>
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">processFile</span>(<span style="color:#a6e22e">filePath</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">wg</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">WaitGroup</span>) {
@@ -464,7 +464,7 @@ Zaczynamy od &ldquo;dlaczego?&rdquo;</p>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">sendData</span>(<span style="color:#a6e22e">data</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Data</span>) {
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// kod umyślnie pominięty 😊
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Data sent: %+v\n&#34;</span>, <span style="color:#a6e22e">data</span>)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Data sent: %+v\n&#34;</span>, <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">value</span>)
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
@@ -648,6 +648,14 @@ Komunikacja bez pamięci współdzielonej</p>
 </section>
 </section><section>
 <p>Coś po sąsiedzku?</p>
+
+
+
+<aside class="notes"><ul>
+<li>do pokazania core prod ze Spyglassa, które pody są w których technologiach</li>
+<li>do pokazania kod powerbi apicallera, idea stojąca za nim</li>
+</ul>
+</aside>
 </section><section>
 <p>Mój projekt jest w Azure, co teraz?</br>
 AppService!</p>
@@ -659,10 +667,10 @@ AppService!</p>
 </section><section>
 <p>Dokumentacja, przykłady użycia, praktyczny kod:</p>
 <ul>
+<li>Go First Steps </br>
+<a href="https://learn.microsoft.com/en-us/training/paths/go-first-steps/">https://learn.microsoft.com/en-us/training/paths/go-first-steps/</a></li>
 <li>Go by Example </br>
 <a href="https://gobyexample.com/">https://gobyexample.com/</a></li>
-<li>Go Packages </br>
-<a href="https://pkg.go.dev/">https://pkg.go.dev/</a></li>
 <li>YouTube </br>
 <a href="https://www.youtube.com/@MarioCarrion/videos">https://www.youtube.com/@MarioCarrion/videos</a></li>
 <li>7 GitHub projects to make you a better Go Developer 💥</br>
