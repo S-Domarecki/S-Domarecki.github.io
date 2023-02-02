@@ -2,11 +2,25 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>/categories/</loc>
+    <loc>/go/wstep/</loc>
   </url><url>
-    <loc>/sample/</loc>
+    <loc>/go/setup/</loc>
+  </url><url>
+    <loc>/go/skladnia/</loc>
+  </url><url>
+    <loc>/go/wspolbieznosc/</loc>
+  </url><url>
+    <loc>/go/porownanie/</loc>
+  </url><url>
+    <loc>/go/zastosowania/</loc>
+  </url><url>
+    <loc>/go/zrodelka/</loc>
   </url><url>
     <loc>/</loc>
+  </url><url>
+    <loc>/categories/</loc>
+  </url><url>
+    <loc>/go/</loc>
   </url><url>
     <loc>/tags/</loc>
   </url>

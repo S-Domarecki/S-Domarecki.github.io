@@ -1,0 +1,771 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+<title>Go in a nutshell</title>
+
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><link rel="stylesheet" href="/reveal-js/css/reset.css">
+<link rel="stylesheet" href="/reveal-js/css/reveal.css"><link rel="stylesheet" href="/reveal-js/css/theme/black.css" id="theme">
+<link rel="stylesheet" href="/highlight-js/default.min.css">
+<style>
+  .reveal section.etc img {
+    background:none; 
+    border:none; 
+    box-shadow:none;
+  }
+
+  .reveal section.soft img {
+    width: 400px;
+    height: auto;
+    background:none; 
+    border:none; 
+    box-shadow:none;
+  }
+
+  .reveal section.side-by-side img {
+    background:none; 
+    border:none; 
+    box-shadow:none;
+  }
+
+  .reveal section.side-by-side h1 {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+  }
+  .reveal section.side-by-side h1:first-of-type {
+    left: -20%;
+  }
+  .reveal section.side-by-side h1:nth-of-type(2) {
+    left: 20%;
+  }
+  .reveal section.side-by-side h1:nth-of-type(3) {
+    left: 60%;
+  }
+  .reveal section.side-by-side h1:nth-of-type(4) {
+    left: 100%;
+  }
+  .reveal section.side-by-side span {
+    align-self: start;
+  }
+
+  .reveal section.table table {
+    font-size: 20px;
+  }
+  </style>
+  </head>
+  <body>
+    
+    <div class="reveal">
+      <div class="slides">
+  
+
+    <p>
+<section data-noprocess data-shortcode-slide
+      class="etc">
+  
+<img src="/images/gopher-modelsheet.jpg" alt="Gopher"></p>
+</section>
+<p>
+<section data-noprocess data-shortcode-slide
+      class="etc">
+  
+<img src="/images/go_logo_blue.png" alt="Go logo"></p>
+<h3 id="go-where-to">Go? Where to?</h3>
+</section><section>
+<ol>
+<li>Wstęp do Go</li>
+<li>Setup środowiska</li>
+<li>Składnia w pigułce</li>
+<li>Współbieżność, Goroutines ❗</li>
+<li>Porównanie z innymi językami - Java, Python, Rust</li>
+<li>Realne zastosowania</li>
+<li>Źródła</li>
+</ol>
+<p>Link: <a href="https://s-domarecki.github.io/go">https://s-domarecki.github.io/go</a></p>
+</section>
+
+  
+
+    <section><ol>
+<li>Wstęp do Go</li>
+</ol>
+</section><section>
+<p>Kolejny język? </br>
+Zaczynamy od &ldquo;dlaczego?&rdquo;</p>
+<ul>
+<li>
+
+
+<span class='fragment ' >trend</span>
+
+
+</li>
+<li>
+
+
+<span class='fragment ' >potencjalne wyspecjalizowane narzędzie pod pewien rodzaj problemów</span>
+
+
+</li>
+<li>
+
+
+<span class='fragment ' >wzbogacenie arsenału we własnym języku</span>
+
+
+</li>
+</ul>
+
+
+
+<aside class="notes"><ul>
+<li>trend odnosi się do pewnych cech języków które przychodzą, odchodzą i wracają. Jeżeli jest hype na cloud, za jakiś czas można się spodziewać powrotu on-prema do łask</li>
+<li>jak robić coś 1000 razy w języku znanym, jednak nieprzystosowanym, być może lepiej jest poświęcić 5h aby tą samą robotę zrobić prościej</li>
+<li>powrót do swojego ulubionego języka z nowymi pomysłami na udoskonalenie kodu</li>
+</ul>
+</aside>
+</section>
+
+<section data-noprocess data-shortcode-slide
+      class="etc">
+  
+<p><img src="/images/go-logo-white.svg" alt="Go logo"></p>
+<p><a href="https://go.dev/">https://go.dev/</a></p>
+
+
+
+<aside class="notes"><ul>
+<li>na potrzeby prezentacji nie ma potrzeby instalacji tegoż</li>
+</ul>
+</aside>
+</section><section>
+<p>Wiki:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span>Go was designed at Google in 2007 to improve programming productivity 
+</span></span><span style="display:flex;"><span>in an era of multicore, networked machines and large codebases.[21] 
+</span></span><span style="display:flex;"><span>The designers wanted to address criticism of other languages in use at Google, 
+</span></span><span style="display:flex;"><span>but keep their useful characteristics:[22]
+</span></span><span style="display:flex;"><span>* Static typing and run-time efficiency (like C)
+</span></span><span style="display:flex;"><span>* Readability and usability (like Python or JavaScript)[23]
+</span></span><span style="display:flex;"><span>* High-performance networking and multiprocessing
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Its designers were primarily motivated by their shared dislike of C++.[24][25][26]
+</span></span></code></pre></div>
+
+
+<aside class="notes"><ul>
+<li>fragment wiki jest tu formalnością</li>
+</ul>
+</aside>
+</section><section>
+<p>Cechy języka:</p>
+<ul>
+<li>
+
+<span class='fragment ' >statycznie typowany, kompilowany, wieloparadygmatowy</span>
+
+</li>
+<li>
+
+<span class='fragment ' >współbieżność na poziomie słowa kluczowego</span>
+
+</li>
+<li>
+
+<span class='fragment ' >orientowany obiektowo*</span>
+
+</li>
+<li>
+
+<span class='fragment ' >Garbage Collection 🎉</span>
+
+</li>
+<li>
+
+<span class='fragment ' >typowanie domyślne</span>
+
+</li>
+<li>
+
+<span class='fragment ' >rozdzielona obsługa błędów - error &amp; panic</span>
+
+</li>
+</ul>
+
+
+
+<aside class="notes"><ul>
+<li>statycznie typowany czyli powołana zmienna jest tego samego typu przez całe swoje życie, kompilowany - kod jest tłumaczony na niskopoziomowy język maszynowy, wieloparadygmatowy - w obecnych czasach nic nie znaczy, ale warto wspomnieć 😊</li>
+<li>współbieżność == słówko go, tak samo istotne jak if, for, switch, var, const</li>
+<li>o orientowanym obiektowo kodzie - slajd niżej</li>
+<li>GC najsamwpierw zostało wynalezione w &lsquo;59 i zaimplementowane w Lispie. Potem rozpopularyzowane przez języki wysokiego poziomu.</li>
+<li>typowanie domyślne to jest hack aby w języku statycznie typowanym pisać poniekąd w stylu języków dynamicznych</li>
+<li>typowym sposobem jest rzucanie wyjątkami, throw, try catch. Tutaj jest panic który jest odradzany. Obsługa błędów leży obok właściwego kodu.</li>
+</ul>
+</aside>
+</section><section>
+<p>Jaki projekt tego potrzebuje?</p>
+<ul>
+<li>mikroarchitektura</li>
+<li>mały drobny skrypt do napisania na wczoraj</li>
+<li>CLI (Viper - <a href="https://github.com/spf13/viper">https://github.com/spf13/viper</a>)</li>
+<li>Cloud native</li>
+</ul>
+</section>
+    <section><ol start="2">
+<li>Setup środowiska</li>
+</ol>
+</section><section>
+<p>Windows:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span>&gt; choco install golang
+</span></span><span style="display:flex;"><span>&gt; scoop install go
+</span></span><span style="display:flex;"><span>&gt; winget install -e <span style="color:#e6db74">&#34;Go Programming Language&#34;</span>
+</span></span></code></pre></div><p>Linux:</p>
+<ul>
+<li><a href="https://repology.org/project/go/versions">https://repology.org/project/go/versions</a></li>
+</ul>
+<p>macOS:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span>&gt; brew install golang
+</span></span></code></pre></div></section><section>
+<p>Co dalej?</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#66d9ef">mkdir</span> new-project
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">cd</span> new-project
+</span></span><span style="display:flex;"><span>go mod init example/user/hello
+</span></span></code></pre></div><p>Kompiluj i odpal mi to</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span>go build
+</span></span><span style="display:flex;"><span>go run .
+</span></span></code></pre></div></section>
+
+<section data-noprocess data-shortcode-slide
+      class="side-by-side">
+  
+<p>IDE?</p>
+<h1 id="vscode-logoimagesidevscode_logopng"><img src="/images/ide/vscode_logo.png" alt="VSCode logo"></h1>
+<h1 id="goland-logoimagesidegoland_logopng"><img src="/images/ide/goland_logo.png" alt="GoLand logo"></h1>
+<h1 id="vim-logoimagesidevim_logopng"><img src="/images/ide/vim_logo.png" alt="Vim logo"></h1>
+<h1 id="emacs-logoimagesideemacs_logopng"><img src="/images/ide/emacs_logo.png" alt="Emacs logo"></h1>
+<p></br></br></br></br></br>
+<a href="https://github.com/golang/go/wiki/IDEsAndTextEditorPlugins">https://github.com/golang/go/wiki/IDEsAndTextEditorPlugins</a></p>
+</section>
+    <section><ol start="3">
+<li>Składnia</li>
+</ol>
+</section><section>
+<p>Klasyczny Hello world</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Hello, World!&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></section><section>
+<p>Tworzenie zmiennych</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">x</span> <span style="color:#66d9ef">int</span> = <span style="color:#ae81ff">5</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">y</span> <span style="color:#66d9ef">float32</span> = <span style="color:#ae81ff">3.14</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">z</span> <span style="color:#66d9ef">string</span> = <span style="color:#e6db74">&#34;Hello, Go!&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">a</span> <span style="color:#66d9ef">bool</span> = <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">x</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">y</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">z</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">a</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></section><section>
+<p>Tworzenie zmiennych v2</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">x</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">5</span> <span style="color:#75715e">// var x int = 5
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">y</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">3.14</span> <span style="color:#75715e">// var y float32 = 3.14
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">z</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;Hello, Go!&#34;</span> <span style="color:#75715e">// var z string = &#34;Hello, Go!&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">a</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">true</span> <span style="color:#75715e">// var a bool = true
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">x</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">y</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">z</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">a</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></section><section>
+<p>Pętle</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#ae81ff">5</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">i</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></section><section>
+
+
+<section data-shortcode-section>
+<p>Error &amp; defer</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;os&#34;</span> <span style="color:#75715e">// grupowanie importów
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// obsługa błędów przyklejona do obsługi rezultatu
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">file</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Open</span>(<span style="color:#e6db74">&#34;example.txt&#34;</span>) 
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Error opening file:&#34;</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">Close</span>() <span style="color:#75715e">// wykonany na końcu
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">data</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">byte</span>, <span style="color:#ae81ff">100</span>) <span style="color:#75715e">// statyczna wielkość
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">count</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">Read</span>(<span style="color:#a6e22e">data</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Error reading file:&#34;</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Read&#34;</span>, <span style="color:#a6e22e">count</span>, <span style="color:#e6db74">&#34;bytes from file:&#34;</span>, string(<span style="color:#a6e22e">data</span>))
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></section><section>
+<p>&ldquo;I ❤️ defers&rdquo; code</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">a</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;1&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">a</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">b</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;2&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">b</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">c</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;3&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">c</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>&ldquo;I 💀 defers&rdquo; code</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">a</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;1&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">b</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;2&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">c</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;3&#34;</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">c</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">b</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">a</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></section><section>
+<p>Kawałek proda</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">mgr</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">PrometheusAlertManager</span>) <span style="color:#a6e22e">ProcessBatches</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">alertBatches</span> <span style="color:#f92672">*</span>[]<span style="color:#a6e22e">Alert</span>.<span style="color:#a6e22e">PrometheusAlertWrapper</span>, <span style="color:#a6e22e">dispatcher</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">dispatchers</span>.<span style="color:#a6e22e">Dispatcher</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">span</span> <span style="color:#a6e22e">trace</span>.<span style="color:#a6e22e">Span</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">span</span> = <span style="color:#a6e22e">mgr</span>.<span style="color:#a6e22e">tracer</span>.<span style="color:#a6e22e">Start</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#e6db74">&#34;Batches processing&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">span</span>.<span style="color:#a6e22e">End</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">wg</span> <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">WaitGroup</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Add</span>(len(<span style="color:#f92672">*</span><span style="color:#a6e22e">alertBatches</span>))
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Wait</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">alertBatches</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">i</span> <span style="color:#66d9ef">int</span>) {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Done</span>()
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">mgr</span>.<span style="color:#a6e22e">processBatch</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">i</span>, <span style="color:#f92672">&amp;</span>(<span style="color:#f92672">*</span><span style="color:#a6e22e">alertBatches</span>)[<span style="color:#a6e22e">i</span>], <span style="color:#a6e22e">dispatcher</span>)
+</span></span><span style="display:flex;"><span>		}(<span style="color:#a6e22e">i</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
+</section>
+</section><section>
+<p>Panic 😱</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">handlePanic</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">r</span> <span style="color:#f92672">:=</span> recover()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">r</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Recovered from panic:&#34;</span>, <span style="color:#a6e22e">r</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">doSomething</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">handlePanic</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Doing something...&#34;</span>)
+</span></span><span style="display:flex;"><span>    panic(<span style="color:#e6db74">&#34;Something went wrong!&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Starting program...&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">doSomething</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Program finished.&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></section><section>
+<p>Obiekty? Struktury!</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Rectangle</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">width</span>, <span style="color:#a6e22e">height</span> <span style="color:#66d9ef">float64</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#a6e22e">Rectangle</span>) <span style="color:#a6e22e">area</span>() <span style="color:#66d9ef">float64</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">width</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">height</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">r</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Rectangle</span>{<span style="color:#a6e22e">width</span>: <span style="color:#ae81ff">10</span>, <span style="color:#a6e22e">height</span>: <span style="color:#ae81ff">5</span>}
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Area of rectangle:&#34;</span>, <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">area</span>())
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></section>
+    <section><ol start="4">
+<li>Współbieżność</li>
+</ol>
+</section><section>
+<p>Współbieżne przesyłanie plików dalej</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;bufio&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;os&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;sync&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Data</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">value</span> <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">processFile</span>(<span style="color:#a6e22e">filePath</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">wg</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">WaitGroup</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Done</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">file</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Open</span>(<span style="color:#a6e22e">filePath</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Error opening file:&#34;</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">Close</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">scanner</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">bufio</span>.<span style="color:#a6e22e">NewScanner</span>(<span style="color:#a6e22e">file</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">scanner</span>.<span style="color:#a6e22e">Scan</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">line</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">scanner</span>.<span style="color:#a6e22e">Text</span>()
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">data</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">Data</span>{<span style="color:#a6e22e">value</span>: <span style="color:#a6e22e">line</span>}
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">sendData</span>(<span style="color:#a6e22e">data</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">scanner</span>.<span style="color:#a6e22e">Err</span>(); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Error reading file:&#34;</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">sendData</span>(<span style="color:#a6e22e">data</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Data</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// kod umyślnie pominięty 😊
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Data sent: %+v\n&#34;</span>, <span style="color:#a6e22e">data</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">wg</span> <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">WaitGroup</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">filePaths</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">string</span>{<span style="color:#e6db74">&#34;data1.txt&#34;</span>, <span style="color:#e6db74">&#34;data2.txt&#34;</span>, <span style="color:#e6db74">&#34;data3.txt&#34;</span>}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">filePath</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">filePaths</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Add</span>(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">processFile</span>(<span style="color:#a6e22e">filePath</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">wg</span>) <span style="color:#75715e">// cała współbieżność
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Wait</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;All files processed.&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></section><section>
+
+
+<section data-shortcode-section>
+<p>Skąd te goroutines? Vs. wątki</p>
+<p>Java style</p>
+<p><img src="/images/thread-model-os-thread-1280w.webp" alt="Java thread"></p>
+</section><section>
+<p>Go style (green threads)</p>
+<p><img src="/images/go-scheduler-1-1280w.webp" alt="Go thread"></p>
+</section><section>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Green_thread">https://en.wikipedia.org/wiki/Green_thread</a></li>
+<li><a href="https://www.quora.com/What-is-difference-between-Goroutines-vs-OS-threads">https://www.quora.com/What-is-difference-between-Goroutines-vs-OS-threads</a></li>
+<li><a href="http://tleyden.github.io/blog/2014/10/30/goroutines-vs-threads/">http://tleyden.github.io/blog/2014/10/30/goroutines-vs-threads/</a></li>
+</ul>
+
+</section>
+</section><section>
+<p>Kanały 🤔</br>
+Komunikacja bez pamięci współdzielonej</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="nohighlight" data-noescape><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">sum</span>(<span style="color:#a6e22e">a</span> []<span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">c</span> <span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">sum</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">a</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">sum</span> <span style="color:#f92672">+=</span> <span style="color:#a6e22e">v</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">c</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">sum</span> <span style="color:#75715e">// send sum to c
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">a</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">7</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">8</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">9</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">0</span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">c</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">go</span> <span style="color:#a6e22e">sum</span>(<span style="color:#a6e22e">a</span>[:len(<span style="color:#a6e22e">a</span>)<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>], <span style="color:#a6e22e">c</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">go</span> <span style="color:#a6e22e">sum</span>(<span style="color:#a6e22e">a</span>[len(<span style="color:#a6e22e">a</span>)<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>:], <span style="color:#a6e22e">c</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">x</span>, <span style="color:#a6e22e">y</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">c</span>, <span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">c</span> <span style="color:#75715e">// receive from c
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">x</span>, <span style="color:#a6e22e">y</span>, <span style="color:#a6e22e">x</span><span style="color:#f92672">+</span><span style="color:#a6e22e">y</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></section>
+    <section><ol start="5">
+<li>Porównanie z innymi językami</li>
+</ol>
+</section>
+
+<section data-noprocess data-shortcode-slide
+      class="table">
+  
+<p>Cechy języków</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Go</th>
+<th>Java</th>
+<th>Python</th>
+<th>Rust</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Typowanie</td>
+<td>statyczne</td>
+<td>statyczne</td>
+<td>dynamiczne</td>
+<td>statyczne, bardzo silne</td>
+<td></td>
+</tr>
+<tr>
+<td>Prędkość</td>
+<td>++</td>
+<td>++</td>
+<td>-</td>
+<td>+++</td>
+<td></td>
+</tr>
+<tr>
+<td>Szybkość pisania</td>
+<td>++</td>
+<td>+</td>
+<td>+++</td>
+<td>+</td>
+<td></td>
+</tr>
+<tr>
+<td>Główne cechy</td>
+<td>mały język, nastawienie na wielowątkowość</td>
+<td>JVM, wymuszona obiektowość</td>
+<td>ogromna elastyczność</td>
+<td>szybkość + toporność</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</section><section>
+
+
+<section data-shortcode-section>
+<p>Performęs</p>
+<p><a href="https://benchmarksgame-team.pages.debian.net/benchmarksgame/">https://benchmarksgame-team.pages.debian.net/benchmarksgame/</a></p>
+<ul>
+<li>n-body - Double-precision N-body simulation</li>
+<li>spectral-norm - Eigenvalue using the power method</li>
+<li>mandelbrot - Generate Mandelbrot set portable bitmap file</li>
+<li>pidigits - Streaming arbitrary-precision arithmetic</li>
+<li>regex-redux - Match DNA 8-mers and substitute magic patterns</li>
+</ul>
+</section><section>
+<ul>
+<li>fasta - Generate and write random DNA sequences</li>
+<li>k-nucleotide - Hashtable update and k-nucleotide strings</li>
+<li>reverse-complement - Read DNA sequences - write their reverse-complement</li>
+<li>binary-trees - Allocate and deallocate many many binary trees</li>
+<li>simple - Original simple mandelbrot programs from 2004 &amp; 2005</li>
+</ul>
+
+</section>
+</section><section>
+<p><img src="/images/fastest.png" alt="Gotta go fast"></p>
+</section><section>
+<p>Wnioski:</p>
+<ul>
+<li>porównywalne z innymi językami z GC</li>
+<li>nieznacznie wolniejsze niż języki bez GC (C, C++, Rust)</li>
+</ul>
+</section>
+    <section><ol start="6">
+<li>Zastosowania</li>
+</ol>
+</section>
+
+
+<section data-shortcode-section>
+<section data-noprocess data-shortcode-slide
+      class="soft">
+<p><img src="/images/soft/docker_logo.png" alt="Docker"></p>
+</section>
+<section data-noprocess data-shortcode-slide
+      class="soft">
+<p><img src="/images/soft/kubernetes_logo.svg" alt="Kubernetes"></p>
+</section>
+<section data-noprocess data-shortcode-slide
+      class="soft">
+<p><img src="/images/soft/prometheus-logo.svg" alt="Prometheus"></p>
+</section>
+<section data-noprocess data-shortcode-slide
+      class="soft">
+<p><img src="/images/soft/grafana_logo.svg" alt="Grafana"></p>
+</section>
+<section data-noprocess data-shortcode-slide
+      class="soft">
+<p><img src="/images/soft/terraform_logo.png" alt="Terraform"></p>
+</section>
+<section data-noprocess data-shortcode-slide
+      class="soft">
+<p><img src="/images/soft/hugo_site.png" alt="Hugo site"></p>
+<p>Jak zrobić podobną prezentację: </br>
+<a href="https://nicolevanderhoeven.com/blog/20210302-presentation-slides-as-code/">https://nicolevanderhoeven.com/blog/20210302-presentation-slides-as-code/</a></p>
+
+</section>
+</section><section>
+<p>Coś po sąsiedzku?</p>
+</section><section>
+<p>Mój projekt jest w Azure, co teraz?</br>
+AppService!</p>
+<p><a href="https://davemccollough.com/2020/12/12/deploy-your-first-go-application-to-azure-app-service/">https://davemccollough.com/2020/12/12/deploy-your-first-go-application-to-azure-app-service/</a></p>
+</section>
+    <section><ol start="7">
+<li>Źródełka ⛲</li>
+</ol>
+</section><section>
+<p>Dokumentacja, przykłady użycia, praktyczny kod:</p>
+<ul>
+<li>Go by Example </br>
+<a href="https://gobyexample.com/">https://gobyexample.com/</a></li>
+<li>Go Packages </br>
+<a href="https://pkg.go.dev/">https://pkg.go.dev/</a></li>
+<li>YouTube </br>
+<a href="https://www.youtube.com/@MarioCarrion/videos">https://www.youtube.com/@MarioCarrion/videos</a></li>
+<li>7 GitHub projects to make you a better Go Developer 💥</br>
+<a href="https://dev.to/ankit01oss/7-github-projects-to-make-you-a-better-go-developer-2nmh">https://dev.to/ankit01oss/7-github-projects-to-make-you-a-better-go-developer-2nmh</a></li>
+</ul>
+</section><section>
+<p>Styl kodu:</p>
+<ul>
+<li>Effective Go </br>
+<a href="https://go.dev/doc/effective_go">https://go.dev/doc/effective_go</a></li>
+<li>Uber Go Style Guide </br>
+<a href="https://github.com/uber-go/guide/blob/master/style.md">https://github.com/uber-go/guide/blob/master/style.md</a></li>
+<li>50 Shades of Go </br>
+<a href="http://devs.cloudimmunity.com/gotchas-and-common-mistakes-in-go-golang/">http://devs.cloudimmunity.com/gotchas-and-common-mistakes-in-go-golang/</a></li>
+</ul>
+</section><section>
+<p>📰</p>
+<ul>
+<li>Oficjalny dev blog </br>
+<a href="https://go.dev/blog/all">https://go.dev/blog/all</a></li>
+<li>Przykład zewnętrznego bloga </br>
+<a href="https://blog.carlmjohnson.net/tags/golang/">https://blog.carlmjohnson.net/tags/golang/</a></li>
+</ul>
+</section>
+
+</div>
+      
+
+    </div>
+<script type="text/javascript" src=/reveal-hugo/object-assign.js></script>
+
+<a href="/reveal-js/css/print/" id="print-location" style="display: none;"></a>
+<script type="text/javascript">
+  var printLocationElement = document.getElementById('print-location');
+  var link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.type = 'text/css';
+  link.href = printLocationElement.href + (window.location.search.match(/print-pdf/gi) ? 'pdf.css' : 'paper.css');
+  document.getElementsByTagName('head')[0].appendChild(link);
+</script>
+
+
+<script src="/reveal-js/js/reveal.js"></script>
+
+<script type="text/javascript">
+  
+  
+  function camelize(map) {
+    if (map) {
+      Object.keys(map).forEach(function(k) {
+        newK = k.replace(/(\_\w)/g, function(m) { return m[1].toUpperCase() });
+        if (newK != k) {
+          map[newK] = map[k];
+          delete map[k];
+        }
+      });
+    }
+    return map;
+  }
+  
+  var revealHugoDefaults = { center: true, controls: true, history: true, progress: true, transition: "slide" };
+  var revealHugoSiteParams = {};
+  var revealHugoPageParams = {};
+
+  
+  var options = Object.assign({},
+    camelize(revealHugoDefaults),
+    camelize(revealHugoSiteParams),
+    camelize(revealHugoPageParams));
+  Reveal.initialize(options);
+</script>
+  <script type="text/javascript" src="/reveal-js/plugin/markdown/marked.js"></script>
+  <script type="text/javascript" src="/reveal-js/plugin/markdown/markdown.js"></script>
+  <script type="text/javascript" src="/reveal-js/plugin/highlight/highlight.js"></script>
+  <script type="text/javascript" src="/reveal-js/plugin/zoom-js/zoom.js"></script>
+  <script type="text/javascript" src="/reveal-js/plugin/notes/notes.js"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+    
+    
+  </body>
+</html>
